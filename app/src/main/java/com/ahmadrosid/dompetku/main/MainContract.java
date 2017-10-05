@@ -1,7 +1,6 @@
 package com.ahmadrosid.dompetku.main;
 
-import com.ahmadrosid.dompetku.data.Ballance;
-import com.ahmadrosid.dompetku.data.Transactions;
+import com.ahmadrosid.dompetku.models.Transaction;
 
 import java.util.List;
 
@@ -14,14 +13,24 @@ public interface MainContract {
     interface View {
         void showBalance(int ballance);
         void showError(String message);
-        void showListTransaksi(List<Transactions> transactionses);
+        void showListTransaksi(List<Transaction> transactionses);
     }
 
     interface Presenter {
         void loadData();
-        void addTransaksi(Transactions transactions);
-        void deleteTransaksi(Transactions transactions);
-        void updateTransaksi(Transactions transactions);
+        void addTransaksi(String title, int amount, Transaction.TransactionType type);
+        void deleteTransaksi(Transaction transactions);
+        void updateTransaksi(Transaction transactions);
+    }
+
+    interface ListViewListener {
+        void onClickListener(Transaction transactions);
+        void onLongClickListener(Transaction transactions);
+    }
+
+    interface PopUpListener {
+        void success();
+        void failed(String message);
     }
 
 }

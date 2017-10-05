@@ -1,28 +1,24 @@
 package com.ahmadrosid.dompetku.main;
 
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ahmadrosid.dompetku.DetailTransactionActivity;
-import com.ahmadrosid.dompetku.StateBottomeSet;
-import com.ahmadrosid.dompetku.transaction.NewTransaction;
 import com.ahmadrosid.dompetku.R;
-import com.ahmadrosid.dompetku.data.Ballance;
-import com.ahmadrosid.dompetku.data.Transactions;
+import com.ahmadrosid.dompetku.detail.DetailTransactionActivity;
 import com.ahmadrosid.dompetku.helper.CurrencyHelper;
-import com.ahmadrosid.dompetku.list.AdapterTransactionList;
-import com.ahmadrosid.dompetku.list.TransactionItemHolder;
-import com.ahmadrosid.dompetku.transaction.TransactionContract;
+import com.ahmadrosid.dompetku.models.Transaction;
+import com.ahmadrosid.dompetku.transaction.EditTransactionActivity;
+import com.ahmadrosid.dompetku.transaction.NewTransaction;
 
 import java.util.List;
 
@@ -34,14 +30,16 @@ import butterknife.OnClick;
  * Created by staf on 03-Oct-17.
  */
 
-public class MainActivity extends AppCompatActivity implements MainContract.View, StateBottomeSet {
+public class MainActivity extends AppCompatActivity implements MainContract.View {
 
     @BindView(R.id.ballance)
     TextView ballanceTextView;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
     @BindView(R.id.list_wallet)
-    RecyclerView listWallet;
+    ListView listWallet;
+    @BindView(R.id.fab_pemasukan)
+    FloatingActionButton fabPemasukan;
+    @BindView(R.id.fab_pengeluaran)
+    FloatingActionButton fabPengeluaran;
 
     private MainContract.Presenter presenter;
 
@@ -60,26 +58,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         presenter.loadData();
     }
 
-    @OnClick(R.id.fab)
-    public void onViewClicked() {
-        LinearLayout bottomSheetViewgroup = (LinearLayout) findViewById(R.id.bottom_sheet);
-
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetViewgroup);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        NewTransaction modalBottomSheet = new NewTransaction(new TransactionContract.AddTransactionListener() {
-            @Override
-            public void success(Transactions transactions) {
-                presenter.addTransaksi(transactions);
-            }
-
-            @Override
-            public void failed(String message) {
-                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
-            }
-        });
-        modalBottomSheet.show(getSupportFragmentManager(), "bottom sheet");
-    }
-
     @Override
     public void showBalance(int ballance) {
         ballanceTextView.setText(CurrencyHelper.format(ballance));
@@ -91,29 +69,87 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void showListTransaksi(List<Transactions> transactionses) {
-        AdapterTransactionList adapter = new AdapterTransactionList(transactionses) {
-            @Override protected void bindHolder(TransactionItemHolder holder, final Transactions model) {
-                holder.bind(model);
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override public void onClick(View view) {
-                        startActivity(new
-                                Intent(MainActivity.this, DetailTransactionActivity.class)
-                                .putExtra("id", model.getId()));
-                        finish();
+    public void showListTransaksi(List<Transaction> transactions) {
+        MainAdapter adapter = new MainAdapter(this, transactions, new MainContract.ListViewListener() {
+            @Override
+            public void onClickListener(Transaction transactions) {
+                DetailTransactionActivity.start(MainActivity.this, transactions.getId());
+            }
+
+            @Override
+            public void onLongClickListener(final Transaction transactions) {
+                CharSequence[] menuItems = new CharSequence[]{"Detail", "Edit", "Delete"};
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+                builder.setTitle(transactions.title);
+                builder.setItems(menuItems, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i) {
+                            case 0:
+                                DetailTransactionActivity.start(MainActivity.this, transactions.getId());
+                                break;
+                            case 1:
+                                EditTransactionActivity.start(MainActivity.this, transactions.getId());
+                                break;
+                            case 2:
+                                delete(transactions);
+                                break;
+                        }
                     }
                 });
+
+                builder.show();
+            }
+        });
+
+        listWallet.setAdapter(adapter);
+    }
+
+    private void delete(final Transaction transaction) {
+        new AlertDialog.Builder(this)
+                .setTitle("Message")
+                .setMessage("Are you sure to delete?")
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        presenter.deleteTransaksi(transaction);
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    @OnClick({R.id.fab_pemasukan, R.id.fab_pengeluaran})
+    public void onViewClicked(View view) {
+        MainContract.PopUpListener popUpListener = new MainContract.PopUpListener() {
+
+            @Override
+            public void success() {
+                presenter.loadData();
+            }
+
+            @Override
+            public void failed(String message) {
+                showError(message);
             }
         };
 
-        listWallet.setLayoutManager(new LinearLayoutManager(this));
-        listWallet.setAdapter(adapter);
-        listWallet.setHasFixedSize(true);
+        Transaction.TransactionType type;
+
+        switch (view.getId()) {
+            default:
+            case R.id.fab_pemasukan:
+                type = Transaction.TransactionType.PEMASUKAN;
+                break;
+            case R.id.fab_pengeluaran:
+                type = Transaction.TransactionType.PENGELUARAN;
+                break;
+        }
+
+        NewTransaction modalBottomSheet = new NewTransaction(this, type, popUpListener);
+        modalBottomSheet.show();
+
     }
-
-    @Override
-    public void onDismiss() {
-
-    }
-
 }

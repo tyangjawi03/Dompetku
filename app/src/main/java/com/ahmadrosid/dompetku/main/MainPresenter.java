@@ -1,18 +1,14 @@
 package com.ahmadrosid.dompetku.main;
 
-import android.widget.TextView;
-
 import com.ahmadrosid.dompetku.DompetkuApp;
-import com.ahmadrosid.dompetku.R;
-import com.ahmadrosid.dompetku.data.Ballance;
-import com.ahmadrosid.dompetku.data.Transactions;
-import com.ahmadrosid.dompetku.helper.CurrencyHelper;
+import com.ahmadrosid.dompetku.models.Transaction;
+import com.ahmadrosid.dompetku.models.TransactionListener;
+import com.ahmadrosid.dompetku.models.TransactionRepository;
+import com.ahmadrosid.dompetku.transaction.TransactionContract;
 
 import java.util.List;
 
 import javax.inject.Inject;
-
-import io.realm.Realm;
 
 /**
  * Created by staf on 03-Oct-17.
@@ -23,7 +19,7 @@ public class MainPresenter implements MainContract.Presenter {
     private MainContract.View view;
 
     @Inject
-    Realm realm;
+    TransactionRepository transactionRepository;
 
     public MainPresenter(MainContract.View view) {
         this.view = view;
@@ -32,48 +28,55 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void loadData() {
-        if (realm == null) {
-            view.showError("Data error");
-            return;
+        List<Transaction> data = transactionRepository.getTransaksiList();
+
+        view.showListTransaksi(data);
+
+        int ballance = 0;
+        for (Transaction transaction : data) {
+            if (transaction.type.ordinal() == Transaction.TransactionType.PEMASUKAN.ordinal()) {
+                ballance += transaction.amount;
+            } else {
+                ballance -= transaction.amount;
+            }
         }
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override public void execute(Realm realm) {
-                List<Transactions> data = realm.where(Transactions.class).findAll();
-                view.showListTransaksi(data);
 
-                int ballance = 0;
+        view.showBalance(ballance);
+    }
 
-                for (Transactions transaction : data) {
-                    if (transaction.getTransaction_type() == 1) {
-                        ballance -= transaction.getAmount();
-                    } else {
-                        ballance += transaction.getAmount();
-                    }
-                }
+    @Override
+    public void addTransaksi(String title, int amount, Transaction.TransactionType type) {
+        transactionRepository.addTransaksi(title, amount, type, new TransactionContract.AddTransactionListener() {
+            @Override
+            public void success(Transaction transaction) {
+                loadData();
+            }
 
-                view.showBalance(ballance);
-
+            @Override
+            public void failed(String message) {
+                view.showError(message);
             }
         });
     }
 
     @Override
-    public void addTransaksi(Transactions transactions) {
-        realm.beginTransaction();
+    public void deleteTransaksi(Transaction transactions) {
+        transactionRepository.deleteTransaksi(transactions.getId(), new TransactionContract.DeleteTransactionListener() {
+            @Override
+            public void success() {
+                loadData();
+            }
 
-        realm.copyToRealm(transactions);
-        realm.commitTransaction();
-
-        loadData();
+            @Override
+            public void failed(String message) {
+                view.showError(message);
+            }
+        });
     }
 
     @Override
-    public void deleteTransaksi(Transactions transactions) {
+    public void updateTransaksi(Transaction transactions) {
 
     }
 
-    @Override
-    public void updateTransaksi(Transactions transactions) {
-
-    }
 }

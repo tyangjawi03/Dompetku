@@ -1,12 +1,12 @@
 package com.ahmadrosid.dompetku.di;
 
 import com.ahmadrosid.dompetku.DompetkuApp;
+import com.ahmadrosid.dompetku.models.TransactionRepository;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.realm.Realm;
 
 /**
  * Created by staf on 03-Oct-17.
@@ -23,8 +23,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    Realm provideRealm() {
-        return Realm.getDefaultInstance();
+    TransactionRepository provideTransactionRepository() {
+        return new TransactionRepository();
     }
-
 }

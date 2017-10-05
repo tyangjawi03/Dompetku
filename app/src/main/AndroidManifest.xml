@@ -19,11 +19,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".EditTransactionActivity"
+            android:name=".transaction.EditTransactionActivity"
             android:label="@string/activity_edit_transaction">
         </activity>
-        <activity android:name=".DetailTransactionActivity">
+        <activity android:name=".detail.DetailTransactionActivity">
         </activity>
+
+        <meta-data android:name="AA_DB_NAME" android:value="DompetkuDB" />
+        <meta-data android:name="AA_DB_VERSION" android:value="8" />
+
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="com.ahmadrosid.dompetku.models.Transaction" />
+
     </application>
 
 </manifest>
