@@ -1,7 +1,10 @@
 package com.ahmadrosid.dompetku.main;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -11,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,17 +26,22 @@ import com.ahmadrosid.dompetku.models.Transaction;
 import com.ahmadrosid.dompetku.transaction.EditTransactionActivity;
 import com.ahmadrosid.dompetku.transaction.NewTransaction;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * Created by staf on 03-Oct-17.
  */
 
-public class MainActivity extends AppCompatActivity implements MainContract.View {
+public class MainActivity extends AppCompatActivity implements MainContract.View, EasyPermissions.PermissionCallbacks {
 
     @BindView(R.id.ballance)
     TextView ballanceTextView;
@@ -44,8 +53,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     FloatingActionButton fabPemasukan;
     @BindView(R.id.fab_pengeluaran)
     FloatingActionButton fabPengeluaran;
+    @BindView(R.id.content_main)
+    RelativeLayout contentMain;
 
     private MainContract.Presenter presenter;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,11 +90,29 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_share :
+            case R.id.action_share:
+
+                share(contentMain);
                 Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show();
                 return true;
             default:
-            return super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void share(View view) {
+        view.setDrawingCacheEnabled(true);
+        Bitmap b = view.getDrawingCache();
+        try {
+            File sdCard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+            File file = new File(sdCard, "image.jpg");
+            FileOutputStream fos = new FileOutputStream(file);
+
+            b.compress(Bitmap.CompressFormat.JPEG, 95, fos);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -193,4 +229,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         modalBottomSheet.show();
 
     }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+
+    }
+
 }
