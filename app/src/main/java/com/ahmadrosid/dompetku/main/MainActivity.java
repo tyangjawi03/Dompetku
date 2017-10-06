@@ -12,7 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ahmadrosid.dompetku.R;
-import com.ahmadrosid.dompetku.detail.DetailTransactionActivity;
+import com.ahmadrosid.dompetku.detail.DetailActionListener;
+import com.ahmadrosid.dompetku.detail.DetailTransaction;
 import com.ahmadrosid.dompetku.helper.CurrencyHelper;
 import com.ahmadrosid.dompetku.models.Transaction;
 import com.ahmadrosid.dompetku.transaction.EditTransactionActivity;
@@ -69,49 +70,67 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void showListTransaksi(List<Transaction> transactions) {
-        MainAdapter adapter = new MainAdapter(this, transactions, new MainContract.ListViewListener() {
+    MainContract.ListViewListener listViewListener = new MainContract.ListViewListener() {
+        @Override
+        public void onClickListener(final Transaction transactions) {
+            showDetail(transactions);
+        }
+
+        @Override
+        public void onLongClickListener(final Transaction transactions) {
+            CharSequence[] menuItems = new CharSequence[]{"Detail", "Edit", "Delete"};
+
+            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+            builder.setTitle(transactions.title);
+            builder.setItems(menuItems, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    switch (i) {
+                        case 0:
+                            showDetail(transactions);
+                            break;
+                        case 1:
+                            EditTransactionActivity.start(MainActivity.this, transactions.getId());
+                            break;
+                        case 2:
+                            delete(transactions);
+                            break;
+                    }
+                }
+            });
+
+            builder.show();
+        }
+    };
+
+    private void showDetail(final Transaction transaction) {
+        DetailTransaction detailTransaction = new DetailTransaction(MainActivity.this, transaction, new DetailActionListener() {
             @Override
-            public void onClickListener(Transaction transactions) {
-                DetailTransactionActivity.start(MainActivity.this, transactions.getId());
+            public void onEditClick() {
+                EditTransactionActivity.start(MainActivity.this, transaction.getId());
             }
 
             @Override
-            public void onLongClickListener(final Transaction transactions) {
-                CharSequence[] menuItems = new CharSequence[]{"Detail", "Edit", "Delete"};
-
-                final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-
-                builder.setTitle(transactions.title);
-                builder.setItems(menuItems, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i) {
-                            case 0:
-                                DetailTransactionActivity.start(MainActivity.this, transactions.getId());
-                                break;
-                            case 1:
-                                EditTransactionActivity.start(MainActivity.this, transactions.getId());
-                                break;
-                            case 2:
-                                delete(transactions);
-                                break;
-                        }
-                    }
-                });
-
-                builder.show();
+            public void onDeleteClick() {
+                delete(transaction);
             }
         });
+
+        detailTransaction.show();
+    }
+
+    @Override
+    public void showListTransaksi(List<Transaction> transactions) {
+        MainAdapter adapter = new MainAdapter(this, transactions, listViewListener);
 
         listWallet.setAdapter(adapter);
     }
 
     private void delete(final Transaction transaction) {
         new AlertDialog.Builder(this)
-                .setTitle("Message")
-                .setMessage("Are you sure to delete?")
+                .setTitle("Delete record")
+                .setMessage(transaction.title + "\n" + CurrencyHelper.format(transaction.amount))
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

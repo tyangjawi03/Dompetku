@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.ahmadrosid.dompetku.R;
-import com.ahmadrosid.dompetku.detail.DetailTransactionActivity;
 import com.ahmadrosid.dompetku.models.Transaction;
 
 import butterknife.BindView;
