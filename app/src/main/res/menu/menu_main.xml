@@ -1,11 +1,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:context="com.ahmadrosid.dompetku.MainActivity">
+      tools:context="com.ahmadrosid.dompetku.main.MainActivity">
+
     <item
-        android:id="@+id/action_edit"
+        android:id="@+id/action_share"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_edit"
+        android:icon="@android:drawable/ic_menu_share"
         app:showAsAction="always"
-        android:title="Edit"/>
+        android:title="Share"/>
+
 </menu>
