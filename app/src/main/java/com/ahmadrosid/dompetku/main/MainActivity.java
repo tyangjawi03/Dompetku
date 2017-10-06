@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.ahmadrosid.dompetku.R;
 import com.ahmadrosid.dompetku.detail.DetailActionListener;
 import com.ahmadrosid.dompetku.detail.DetailTransaction;
-import com.ahmadrosid.dompetku.detail.DetailTransactionActivity;
 import com.ahmadrosid.dompetku.helper.CurrencyHelper;
 import com.ahmadrosid.dompetku.models.Transaction;
 import com.ahmadrosid.dompetku.transaction.EditTransactionActivity;
@@ -74,20 +73,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     MainContract.ListViewListener listViewListener = new MainContract.ListViewListener() {
         @Override
         public void onClickListener(final Transaction transactions) {
-//                DetailTransactionActivity.start(MainActivity.this, transactions.getId());
-            DetailTransaction detailTransaction = new DetailTransaction(MainActivity.this, transactions, new DetailActionListener() {
-                @Override
-                public void onEditClick() {
-                    EditTransactionActivity.start(MainActivity.this, transactions.getId());
-                }
-
-                @Override
-                public void onDeleteClick() {
-                    delete(transactions);
-                }
-            });
-
-            detailTransaction.show();
+            showDetail(transactions);
         }
 
         @Override
@@ -102,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 public void onClick(DialogInterface dialogInterface, int i) {
                     switch (i) {
                         case 0:
-                            DetailTransactionActivity.start(MainActivity.this, transactions.getId());
+                            showDetail(transactions);
                             break;
                         case 1:
                             EditTransactionActivity.start(MainActivity.this, transactions.getId());
@@ -117,6 +103,22 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             builder.show();
         }
     };
+
+    private void showDetail(final Transaction transaction) {
+        DetailTransaction detailTransaction = new DetailTransaction(MainActivity.this, transaction, new DetailActionListener() {
+            @Override
+            public void onEditClick() {
+                EditTransactionActivity.start(MainActivity.this, transaction.getId());
+            }
+
+            @Override
+            public void onDeleteClick() {
+                delete(transaction);
+            }
+        });
+
+        detailTransaction.show();
+    }
 
     @Override
     public void showListTransaksi(List<Transaction> transactions) {
