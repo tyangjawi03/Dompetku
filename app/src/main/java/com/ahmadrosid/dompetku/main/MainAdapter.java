@@ -91,18 +91,20 @@ public class MainAdapter extends ArrayAdapter<Transaction> {
             title.setText(transaction.title);
 
             Date dates = new Date(transaction.date);
-            String date = new SimpleDateFormat("EEE, MMM d, yy").format(dates);
+            String date = new SimpleDateFormat("EEE, d MMM yyyy").format(dates);
             this.time.setText(date);
 
             String data = CurrencyHelper.format(transaction.amount);
 
             if (transaction.type.ordinal() == Transaction.TransactionType.PEMASUKAN.ordinal()) {
                 this.amount.setText(" + " + data);
+                amount.setTextColor(view.getResources().getColor(R.color.colorPrimary));
                 iconWalletList.setImageResource(R.drawable.wallet_in);
                 type.setText("PEMASUKAN");
                 type.setBackgroundResource(R.color.colorPrimary);
             } else {
                 this.amount.setText(" - " + data);
+                amount.setTextColor(view.getResources().getColor(R.color.colorAccent));
                 iconWalletList.setImageResource(R.drawable.wallet_out);
                 type.setText("PENGELUARAN");
                 type.setBackgroundResource(R.color.colorAccent);
