@@ -85,6 +85,9 @@ public class ReportPresenter implements ReportContract.Presenter {
             FileOutputStream fos = new FileOutputStream(file);
 
             bitmap.compress(Bitmap.CompressFormat.JPEG, 95, fos);
+
+            view.imageGenerated(file);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

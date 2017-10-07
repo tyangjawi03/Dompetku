@@ -3,6 +3,8 @@ package com.ahmadrosid.dompetku.report;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -71,7 +73,8 @@ public class ReportActivity extends AppCompatActivity implements ReportContract.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
-                share(contentReport);
+                contentReport.setDrawingCacheEnabled(true);
+                presenter.share(contentReport.getDrawingCache());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -88,9 +91,22 @@ public class ReportActivity extends AppCompatActivity implements ReportContract.
         detailList.setAdapter(reportAdapter);
     }
 
-    public void share(View view) {
-        view.setDrawingCacheEnabled(true);
-        presenter.share(view.getDrawingCache());
+    @Override
+    public void imageGenerated(File path) {
+
+        Intent share = new Intent(Intent.ACTION_SEND);
+
+        // Type of file to share
+        share.setType("image/jpeg");
+
+        // Locate the image to Share
+        Uri uri = Uri.fromFile(path);
+
+        // Pass the image into an Intnet
+        share.putExtra(Intent.EXTRA_STREAM, uri);
+
+        // Show the social share chooser list
+        startActivity(Intent.createChooser(share, "Share Report"));
     }
 
 }

@@ -2,6 +2,7 @@ package com.ahmadrosid.dompetku.report;
 
 import android.graphics.Bitmap;
 
+import java.io.File;
 import java.util.Calendar;
 
 /**
@@ -12,6 +13,7 @@ public interface ReportContract {
 
     interface View {
         void showReport(Report report);
+        void imageGenerated(File path);
     }
 
     interface Presenter {
