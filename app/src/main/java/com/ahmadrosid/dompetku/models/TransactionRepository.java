@@ -26,7 +26,7 @@ public class TransactionRepository {
     }
 
     public List<Transaction> getReport(long start, long end) {
-        return new Select("*, sum(amount) as amount")
+        return new Select("id, Title, Date, Type, sum(Amount) as Amount")
                 .from(Transaction.class)
                 .where("Date >= " + start + " AND Date <= " + end)
                 .groupBy("Title")
