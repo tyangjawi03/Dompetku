@@ -86,6 +86,14 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <TextView
+            android:text="Detil Pengeluaran"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:textColor="@color/colorSecondaryText"
+            style="@style/TextAppearance.AppCompat.Small" />
+
         <ListView
             android:id="@+id/detail_list"
             android:layout_width="match_parent"
