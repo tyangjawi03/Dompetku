@@ -4,7 +4,7 @@
       tools:context="com.ahmadrosid.dompetku.main.MainActivity">
 
     <item
-        android:id="@+id/action_share"
+        android:id="@+id/action_report"
         android:orderInCategory="100"
         android:icon="@drawable/chart_pie"
         app:showAsAction="always"

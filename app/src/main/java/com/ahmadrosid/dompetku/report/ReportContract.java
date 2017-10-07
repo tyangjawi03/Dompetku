@@ -1,5 +1,7 @@
 package com.ahmadrosid.dompetku.report;
 
+import android.graphics.Bitmap;
+
 import java.util.Calendar;
 
 /**
@@ -14,6 +16,7 @@ public interface ReportContract {
 
     interface Presenter {
         void loadReport(Calendar calendar);
+        void share(Bitmap bitmap);
     }
 
 }

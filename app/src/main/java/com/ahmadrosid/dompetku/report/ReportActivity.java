@@ -2,14 +2,24 @@ package com.ahmadrosid.dompetku.report;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ahmadrosid.dompetku.R;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -26,6 +36,8 @@ public class ReportActivity extends AppCompatActivity implements ReportContract.
     TextView expend;
     @BindView(R.id.detail_list)
     ListView detailList;
+    @BindView(R.id.content_report)
+    LinearLayout contentReport;
 
     private ReportContract.Presenter presenter;
 
@@ -49,6 +61,24 @@ public class ReportActivity extends AppCompatActivity implements ReportContract.
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_report, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_share:
+                share(contentReport);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void showReport(Report report) {
         reportDate.setText(report.getReportDate());
         currentBalance.setText(report.getBalance());
@@ -56,6 +86,11 @@ public class ReportActivity extends AppCompatActivity implements ReportContract.
 
         ReportAdapter reportAdapter = new ReportAdapter(this, report.getDetilExpend());
         detailList.setAdapter(reportAdapter);
+    }
+
+    public void share(View view) {
+        view.setDrawingCacheEnabled(true);
+        presenter.share(view.getDrawingCache());
     }
 
 }

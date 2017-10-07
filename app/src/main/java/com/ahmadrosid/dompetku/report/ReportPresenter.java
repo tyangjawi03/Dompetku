@@ -1,9 +1,18 @@
 package com.ahmadrosid.dompetku.report;
 
+import android.graphics.Bitmap;
+import android.os.Environment;
+
 import com.ahmadrosid.dompetku.DompetkuApp;
 import com.ahmadrosid.dompetku.models.Transaction;
 import com.ahmadrosid.dompetku.models.TransactionRepository;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -63,6 +72,24 @@ public class ReportPresenter implements ReportContract.Presenter {
         report.setDetilExpend(categories);
 
         view.showReport(report);
+
+    }
+
+    @Override
+    public void share(Bitmap bitmap) {
+        Calendar calendar = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        try {
+            File sdCard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+            File file = new File(sdCard, "DompetKu_report_"+ dateFormat.format(calendar.getTimeInMillis())+".jpg");
+            FileOutputStream fos = new FileOutputStream(file);
+
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 95, fos);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

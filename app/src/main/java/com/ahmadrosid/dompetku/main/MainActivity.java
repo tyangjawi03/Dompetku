@@ -91,27 +91,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_share:
+            case R.id.action_report:
                 ReportActivity.start(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    public void share(View view) {
-        view.setDrawingCacheEnabled(true);
-        Bitmap b = view.getDrawingCache();
-        try {
-            File sdCard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-            File file = new File(sdCard, "image.jpg");
-            FileOutputStream fos = new FileOutputStream(file);
-
-            b.compress(Bitmap.CompressFormat.JPEG, 95, fos);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
