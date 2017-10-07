@@ -23,6 +23,7 @@ import com.ahmadrosid.dompetku.detail.DetailActionListener;
 import com.ahmadrosid.dompetku.detail.DetailTransaction;
 import com.ahmadrosid.dompetku.helper.CurrencyHelper;
 import com.ahmadrosid.dompetku.models.Transaction;
+import com.ahmadrosid.dompetku.report.ReportActivity;
 import com.ahmadrosid.dompetku.transaction.EditTransactionActivity;
 import com.ahmadrosid.dompetku.transaction.NewTransaction;
 
@@ -91,9 +92,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
-
-                share(contentMain);
-                Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show();
+                ReportActivity.start(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
