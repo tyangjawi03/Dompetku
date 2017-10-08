@@ -78,7 +78,7 @@ public class ReportPresenter implements ReportContract.Presenter {
     @Override
     public void share(Bitmap bitmap) {
         Calendar calendar = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
         try {
             File sdCard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
             File file = new File(sdCard, "DompetKu_report_"+ dateFormat.format(calendar.getTimeInMillis())+".jpg");
