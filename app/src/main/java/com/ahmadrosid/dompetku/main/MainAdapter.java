@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.ahmadrosid.dompetku.R;
 import com.ahmadrosid.dompetku.helper.CurrencyHelper;
 import com.ahmadrosid.dompetku.models.Transaction;
+import com.ahmadrosid.dompetku.utils.Curency;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -79,7 +80,7 @@ public class MainAdapter extends ArrayAdapter<Transaction> {
         @BindView(R.id.title)
         TextView title;
         @BindView(R.id.amount)
-        TextView amount;
+        Curency amount;
         @BindView(R.id.time)
         TextView time;
         @BindView(R.id.type)
@@ -94,17 +95,15 @@ public class MainAdapter extends ArrayAdapter<Transaction> {
             String date = new SimpleDateFormat("EEE, d MMM yyyy").format(dates);
             this.time.setText(date);
 
-            String data = CurrencyHelper.format(transaction.amount);
+            amount.setValue(transaction.amount);
 
             if (transaction.type.ordinal() == Transaction.TransactionType.PEMASUKAN.ordinal()) {
-                this.amount.setText(" + " + data);
-                amount.setTextColor(view.getResources().getColor(R.color.colorPrimary));
+                amount.setTextColor(R.color.colorPrimary);
                 iconWalletList.setImageResource(R.drawable.wallet_in);
                 type.setText("PEMASUKAN");
                 type.setBackgroundResource(R.color.colorPrimary);
             } else {
-                this.amount.setText(" - " + data);
-                amount.setTextColor(view.getResources().getColor(R.color.colorAccent));
+                amount.setTextColor(R.color.colorAccent);
                 iconWalletList.setImageResource(R.drawable.wallet_out);
                 type.setText("PENGELUARAN");
                 type.setBackgroundResource(R.color.colorAccent);

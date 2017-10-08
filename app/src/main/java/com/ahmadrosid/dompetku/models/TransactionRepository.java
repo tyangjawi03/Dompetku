@@ -2,6 +2,7 @@ package com.ahmadrosid.dompetku.models;
 
 import android.util.Log;
 
+import com.activeandroid.Model;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.ahmadrosid.dompetku.transaction.TransactionContract;
@@ -22,6 +23,15 @@ public class TransactionRepository {
         } else {
             listener.failed("Error insert data");
         }
+    }
+
+    public List<Transaction> getReport(long start, long end) {
+        return new Select("id, Title, Date, Type, sum(Amount) as Amount")
+                .from(Transaction.class)
+                .where("Date >= " + start + " AND Date <= " + end)
+                .groupBy("Title")
+                .orderBy("Amount desc")
+                .execute();
     }
 
     public List<Transaction> getTransaksiGroupBy() {
