@@ -30,7 +30,7 @@ public class TransactionRepository {
                 .from(Transaction.class)
                 .where("Date >= " + start + " AND Date <= " + end)
                 .groupBy("Title")
-                .orderBy("id desc")
+                .orderBy("Amount desc")
                 .execute();
     }
 

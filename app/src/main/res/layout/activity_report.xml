@@ -7,12 +7,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ahmadrosid.dompetku.report.ReportActivity">
+    tools:context="com.ahmadrosid.dompetku.report.ReportActivity"
+    android:background="@color/white">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="@color/colorPrimary"
         android:padding="16dp">
 
@@ -24,7 +24,9 @@
             android:textColor="@color/colorSecondaryText"
             style="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="italic"
-            android:layout_gravity="right" />
+            android:layout_gravity="right"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"/>
 
         <ImageView
             android:id="@+id/header_image"
@@ -32,15 +34,19 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_launcher"
             android:layout_margin="8dp"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_below="@id/report_date"
+            android:layout_gravity="center_vertical|left"/>
 
         <TextView
+            android:id="@+id/label_ballance"
             android:text="Current Balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/colorSecondaryText"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_toRightOf="@id/header_image"
+            android:layout_alignTop="@id/header_image"
+            android:layout_marginLeft="16dp"/>
 
         <TextView
             android:id="@+id/current_balance"
@@ -50,9 +56,12 @@
             android:textStyle="bold"
             android:textColor="@color/white"
             style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_toRightOf="@id/header_image"
+            android:layout_below="@id/label_ballance"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="16dp"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -86,7 +95,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        android:background="@color/white">
+        android:background="@color/white" >
 
         <TextView
             android:text="Detil Pengeluaran"
@@ -96,12 +105,16 @@
             android:textColor="@color/colorSecondaryText"
             style="@style/TextAppearance.AppCompat.Small" />
 
-        <ListView
+        <GridView
             android:id="@+id/detail_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:dividerHeight="1px"
-            android:divider="@color/colorDivider"/>
+            android:padding="1px"
+            android:horizontalSpacing="1dp"
+            android:numColumns="auto_fit"
+            android:background="@color/colorDivider"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="1dp"/>
 
     </LinearLayout>
 

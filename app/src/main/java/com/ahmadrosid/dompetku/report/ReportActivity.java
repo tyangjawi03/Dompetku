@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,7 +38,7 @@ public class ReportActivity extends AppCompatActivity implements ReportContract.
     @BindView(R.id.expend)
     TextView expend;
     @BindView(R.id.detail_list)
-    ListView detailList;
+    GridView detailList;
     @BindView(R.id.content_report)
     LinearLayout contentReport;
 
