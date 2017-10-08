@@ -10,13 +10,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:text="Rp."/>
+        android:text="Rp."
+        android:textSize="18dp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/currency_amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
-        android:text="100.000.000,-"/>
+        android:text="100.000.000,-"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
 
 </LinearLayout>
