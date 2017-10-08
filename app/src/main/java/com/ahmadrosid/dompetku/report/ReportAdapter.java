@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.ahmadrosid.dompetku.R;
 import com.ahmadrosid.dompetku.helper.CurrencyHelper;
 import com.ahmadrosid.dompetku.models.Transaction;
+import com.ahmadrosid.dompetku.utils.Curency;
 import com.ahmadrosid.dompetku.utils.LabelTextView;
 
 import org.w3c.dom.Text;
@@ -55,10 +56,16 @@ public class ReportAdapter extends ArrayAdapter<Report.Category> {
             convertView = inflater.inflate(R.layout.adapter_report, parent, false);
         }
 
-        LabelTextView labelTextView = (LabelTextView) convertView.findViewById(R.id.item);
+//        LabelTextView labelTextView = (LabelTextView) convertView.findViewById(R.id.item);
 
-        labelTextView.setLabel(category.title);
-        labelTextView.setValue(category.getAmount());
+//        labelTextView.setLabel(category.title);
+//        labelTextView.setValue(category.getAmount());
+
+        TextView label = (TextView) convertView.findViewById(R.id.label);
+        Curency value = (Curency) convertView.findViewById(R.id.amount);
+
+        label.setText(category.title);
+        value.setValue(category.amount);
 
         return convertView;
     }
