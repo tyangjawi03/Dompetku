@@ -94,7 +94,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        android:background="@color/white">
+        android:background="@color/white" >
 
         <TextView
             android:text="Detil Pengeluaran"
@@ -104,12 +104,16 @@
             android:textColor="@color/colorSecondaryText"
             style="@style/TextAppearance.AppCompat.Small" />
 
-        <ListView
+        <GridView
             android:id="@+id/detail_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:dividerHeight="1px"
-            android:divider="@color/colorDivider"/>
+            android:padding="1px"
+            android:horizontalSpacing="1dp"
+            android:numColumns="2"
+            android:background="@color/colorDivider"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="1dp"/>
 
     </LinearLayout>
 

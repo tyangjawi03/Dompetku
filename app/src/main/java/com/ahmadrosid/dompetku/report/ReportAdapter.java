@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.ahmadrosid.dompetku.R;
 import com.ahmadrosid.dompetku.helper.CurrencyHelper;
 import com.ahmadrosid.dompetku.models.Transaction;
+import com.ahmadrosid.dompetku.utils.LabelTextView;
 
 import org.w3c.dom.Text;
 
@@ -51,38 +52,15 @@ public class ReportAdapter extends ArrayAdapter<Report.Category> {
 
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.item_wallet_list, parent, false);
+            convertView = inflater.inflate(R.layout.adapter_report, parent, false);
         }
 
-        new ViewHolder(convertView, category);
+        LabelTextView labelTextView = (LabelTextView) convertView.findViewById(R.id.item);
+
+        labelTextView.setLabel(category.title);
+        labelTextView.setValue(category.getAmount());
 
         return convertView;
     }
 
-    static class ViewHolder {
-        @BindView(R.id.icon_wallet_list)
-        ImageView iconWalletList;
-        @BindView(R.id.title)
-        TextView title;
-        @BindView(R.id.amount)
-        TextView amount;
-        @BindView(R.id.time)
-        TextView time;
-        @BindView(R.id.type)
-        TextView type;
-
-        ViewHolder(View view, Report.Category category) {
-            ButterKnife.bind(this, view);
-
-            title.setText(category.title);
-            iconWalletList.setImageResource(R.drawable.wallet_out);
-            amount.setTextColor(view.getResources().getColor(R.color.colorPrimaryText));
-            amount.setText(category.getAmount());
-
-            time.setVisibility(View.GONE);
-            type.setVisibility(View.GONE);
-
-        }
-
-    }
 }
