@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ahmadrosid.dompetku.report.ReportActivity">
+    tools:context="com.ahmadrosid.dompetku.report.ReportActivity"
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -57,7 +58,7 @@
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_toRightOf="@id/header_image"
             android:layout_below="@id/label_ballance"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginLeft="16dp"/>
 
     </RelativeLayout>
@@ -110,7 +111,7 @@
             android:layout_height="match_parent"
             android:padding="1px"
             android:horizontalSpacing="1dp"
-            android:numColumns="2"
+            android:numColumns="auto_fit"
             android:background="@color/colorDivider"
             android:stretchMode="columnWidth"
             android:verticalSpacing="1dp"/>
