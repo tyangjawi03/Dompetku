@@ -51,7 +51,7 @@ public class ReportPresenter implements ReportContract.Presenter {
         List<Report.Category> categories = new ArrayList<>();
 
         Report.Category makan = new Report.Category();
-        makan.title = "Makan Pagi/Siang/Malam";
+        makan.title = "Makan";
         makan.amount = 0;
 
         categories.add(makan);
@@ -74,7 +74,7 @@ public class ReportPresenter implements ReportContract.Presenter {
                 }
             }
         }
-        
+
         Report report = new Report();
         report.setBalance(balance);
         report.setExpend(expend);
