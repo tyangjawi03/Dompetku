@@ -50,6 +50,12 @@ public class ReportPresenter implements ReportContract.Presenter {
 
         List<Report.Category> categories = new ArrayList<>();
 
+        Report.Category makan = new Report.Category();
+        makan.title = "Makan Pagi/Siang/Malam";
+        makan.amount = 0;
+
+        categories.add(makan);
+
         for (Transaction transaction : data) {
             if (transaction.type.ordinal() == Transaction.TransactionType.PEMASUKAN.ordinal()) {
                 balance += transaction.amount;
@@ -57,14 +63,18 @@ public class ReportPresenter implements ReportContract.Presenter {
                 balance -= transaction.amount;
                 expend += transaction.amount;
 
-                Report.Category category = new Report.Category();
-                category.title = transaction.title;
-                category.amount = transaction.amount;
+                if (transaction.title.toLowerCase().contains("makan") || transaction.title.toLowerCase().contains("sarapan")) {
+                    categories.get(0).amount += transaction.amount;
+                } else {
+                    Report.Category category = new Report.Category();
+                    category.title = transaction.title;
+                    category.amount = transaction.amount;
 
-                categories.add(category);
+                    categories.add(category);
+                }
             }
         }
-
+        
         Report report = new Report();
         report.setBalance(balance);
         report.setExpend(expend);
