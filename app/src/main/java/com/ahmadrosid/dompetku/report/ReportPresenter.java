@@ -53,8 +53,12 @@ public class ReportPresenter implements ReportContract.Presenter {
         Report.Category makan = new Report.Category();
         makan.title = "Makan";
         makan.amount = 0;
-
         categories.add(makan);
+
+        Report.Category online = new Report.Category();
+        online.title = "Belanja Online";
+        online.amount = 0;
+        categories.add(online);
 
         for (Transaction transaction : data) {
             if (transaction.type.ordinal() == Transaction.TransactionType.PEMASUKAN.ordinal()) {
@@ -65,6 +69,8 @@ public class ReportPresenter implements ReportContract.Presenter {
 
                 if (transaction.title.toLowerCase().contains("makan") || transaction.title.toLowerCase().contains("sarapan")) {
                     categories.get(0).amount += transaction.amount;
+                } else if (transaction.title.toLowerCase().contains("online")) {
+                    categories.get(1).amount += transaction.amount;
                 } else {
                     Report.Category category = new Report.Category();
                     category.title = transaction.title;
