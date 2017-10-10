@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface TransactionContract {
 
-    interface AllTitleListener {
+    interface GetTitlesListener {
         void success(List<String> data);
         void failed(String message);
     }
@@ -35,7 +35,8 @@ public interface TransactionContract {
     }
 
     interface Presenter {
-        void loadAllTitle(AllTitleListener titleListener);
+        void loadTitles(GetTitlesListener titleListener);
+        void loadTitles(CharSequence search, GetTitlesListener titleListener);
         void loadTransaction(long id);
         void createTransaction(String title, int amount, Transaction.TransactionType type);
         void updateTransaction(long id, String title, int amount, Transaction.TransactionType type);
