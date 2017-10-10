@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -91,27 +93,50 @@ public class NewTransaction extends Dialog implements View.OnClickListener, Tran
             }
         });
 
-        titlePicker.setListener(new TitlePickerListener() {
-            @Override
-            public void onClickListener(String title) {
-                itemName.setText(title);
-            }
-        });
+        titlePicker.setListener(titlePickerListener);
 
-        presenter.loadAllTitle(new TransactionContract.AllTitleListener() {
-            @Override
-            public void success(List<String> data) {
-                titlePicker.setTextList(data);
-            }
+        presenter.loadTitles(getTitlesListener);
 
-            @Override
-            public void failed(String message) {
-
-            }
-        });
+        itemName.addTextChangedListener(textWatcher);
 
         titlePicker.setVisibility(View.INVISIBLE);
     }
+
+    TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            presenter.loadTitles(charSequence, getTitlesListener);
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
+
+    TitlePickerListener titlePickerListener = new TitlePickerListener() {
+        @Override
+        public void onClickListener(String title) {
+            itemName.setText(title);
+        }
+    };
+
+    TransactionContract.GetTitlesListener getTitlesListener = new TransactionContract.GetTitlesListener() {
+        @Override
+        public void success(List<String> data) {
+            titlePicker.setTextList(data);
+        }
+
+        @Override
+        public void failed(String message) {
+
+        }
+    };
 
     @OnClick({R.id.img_close, R.id.img_done})
     public void onClick(View view) {
