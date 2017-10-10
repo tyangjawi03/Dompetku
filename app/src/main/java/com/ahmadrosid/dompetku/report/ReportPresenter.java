@@ -15,6 +15,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -53,12 +55,10 @@ public class ReportPresenter implements ReportContract.Presenter {
         Report.Category makan = new Report.Category();
         makan.title = "Makan";
         makan.amount = 0;
-        categories.add(makan);
 
         Report.Category online = new Report.Category();
         online.title = "Belanja Online";
         online.amount = 0;
-        categories.add(online);
 
         for (Transaction transaction : data) {
             if (transaction.type.ordinal() == Transaction.TransactionType.PEMASUKAN.ordinal()) {
@@ -68,9 +68,9 @@ public class ReportPresenter implements ReportContract.Presenter {
                 expend += transaction.amount;
 
                 if (transaction.title.toLowerCase().contains("makan") || transaction.title.toLowerCase().contains("sarapan")) {
-                    categories.get(0).amount += transaction.amount;
+                    makan.amount += transaction.amount;
                 } else if (transaction.title.toLowerCase().contains("online")) {
-                    categories.get(1).amount += transaction.amount;
+                    online.amount += transaction.amount;
                 } else {
                     Report.Category category = new Report.Category();
                     category.title = transaction.title;
@@ -81,14 +81,46 @@ public class ReportPresenter implements ReportContract.Presenter {
             }
         }
 
+        if (makan.amount > 0)
+            categories.add(makan);
+
+        if (online.amount > 0)
+            categories.add(online);
+
+        Collections.sort(categories, new Comparator<Report.Category>() {
+            @Override
+            public int compare(Report.Category category, Report.Category t1) {
+                return t1.amount - category.amount;
+            }
+        });
+
+        List<Report.Category> categoryList = compressList(categories);
+
         Report report = new Report();
         report.setBalance(balance);
         report.setExpend(expend);
         report.setReportDate(calendar);
-        report.setDetilExpend(categories);
+        report.setDetilExpend(categoryList);
 
         view.showReport(report);
 
+    }
+
+    public List<Report.Category> compressList(List<Report.Category> categories) {
+        if (categories.size() < 9) {
+            return categories;
+        } else {
+            List<Report.Category> categoryList = new ArrayList<Report.Category>();
+
+            for (int i = 0; i < categories.size() - 1; i++) {
+                categoryList.add(categories.get(i));
+            }
+
+            categoryList.get(categories.size() - 2).title = "Lain-lain";
+            categoryList.get(categories.size() - 2).amount += categories.get(categories.size()-1).amount;
+
+            return compressList(categoryList);
+        }
     }
 
     @Override
