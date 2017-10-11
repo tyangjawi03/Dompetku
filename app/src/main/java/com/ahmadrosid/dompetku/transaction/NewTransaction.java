@@ -7,8 +7,10 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -100,6 +102,29 @@ public class NewTransaction extends Dialog implements View.OnClickListener, Tran
         itemName.addTextChangedListener(textWatcher);
 
         titlePicker.setVisibility(View.INVISIBLE);
+        
+        final InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        itemAmount.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                calculator.setVisibility(View.VISIBLE);
+                titlePicker.setVisibility(View.GONE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                return true;
+            }
+        });
+
+        itemName.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                itemName.requestFocus();
+                calculator.setVisibility(View.GONE);
+                titlePicker.setVisibility(View.VISIBLE);
+                imm.showSoftInput(view, 0);
+                return true;
+            }
+        });
     }
 
     TextWatcher textWatcher = new TextWatcher() {
