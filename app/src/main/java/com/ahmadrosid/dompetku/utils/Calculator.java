@@ -2,6 +2,7 @@ package com.ahmadrosid.dompetku.utils;
 
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -135,8 +136,12 @@ public class Calculator extends ConstraintLayout {
                 break;
             case R.id.button_enter:
                 String result = textView.getText().toString();
-                int r = Integer.parseInt(result);
-                calculatorListener.result(r);
+                if (!TextUtils.isEmpty(result)) {
+                    int r = Integer.parseInt(result);
+                    calculatorListener.result(r);
+                } else {
+                    calculatorListener.result(0);
+                }
                 break;
         }
     }

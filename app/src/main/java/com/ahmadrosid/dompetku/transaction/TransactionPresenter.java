@@ -90,7 +90,7 @@ public class TransactionPresenter implements TransactionContract.Presenter {
         transactionRepository.updateTransaksi(id, title, amount, type, new TransactionContract.EditTransactionListener() {
             @Override
             public void success(Transaction transaction) {
-                editView.showError("Data Transaksi telah diubah");
+                editView.showData(transaction);
             }
 
             @Override
