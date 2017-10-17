@@ -108,6 +108,7 @@ public class NewTransaction extends Dialog implements View.OnClickListener, Tran
         itemAmount.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                itemAmount.requestFocus();
                 calculator.setVisibility(View.VISIBLE);
                 titlePicker.setVisibility(View.GONE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
