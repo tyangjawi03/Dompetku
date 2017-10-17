@@ -107,7 +107,7 @@ public class ReportPresenter implements ReportContract.Presenter {
     }
 
     public List<Report.Category> compressList(List<Report.Category> categories) {
-        if (categories.size() < 9) {
+        if (categories.size() <= 10) {
             return categories;
         } else {
             List<Report.Category> categoryList = new ArrayList<Report.Category>();
@@ -116,8 +116,8 @@ public class ReportPresenter implements ReportContract.Presenter {
                 categoryList.add(categories.get(i));
             }
 
-            categoryList.get(categories.size() - 2).title = "Lain-lain";
-            categoryList.get(categories.size() - 2).amount += categories.get(categories.size()-1).amount;
+            categoryList.get(categoryList.size() - 1).title = "Lain-lain";
+            categoryList.get(categoryList.size() - 1).amount += categories.get(categories.size()-1).amount;
 
             return compressList(categoryList);
         }
