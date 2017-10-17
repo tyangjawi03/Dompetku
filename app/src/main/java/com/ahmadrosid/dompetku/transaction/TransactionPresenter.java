@@ -26,8 +26,28 @@ public class TransactionPresenter implements TransactionContract.Presenter {
     }
 
     @Override
-    public void loadAllTitle(TransactionContract.AllTitleListener titleListener) {
+    public void loadTitles(TransactionContract.GetTitlesListener titleListener) {
         List<Transaction> transactions = transactionRepository.getTransaksiGroupBy();
+
+        List<String> titles = new ArrayList<String>();
+
+        if (transactions.size() > 5) {
+            for (int i=0;i<5;i++)
+                titles.add(transactions.get(i).title);
+        } else {
+            for (Transaction transaction : transactions)
+                titles.add(transaction.title);
+        }
+
+        if (!titles.isEmpty())
+            titleListener.success(titles);
+        else
+            titleListener.failed("Empty data");
+    }
+
+    @Override
+    public void loadTitles(CharSequence search, TransactionContract.GetTitlesListener titleListener) {
+        List<Transaction> transactions = transactionRepository.getTransaksiGroupBy(search);
 
         List<String> titles = new ArrayList<String>();
 
@@ -70,7 +90,7 @@ public class TransactionPresenter implements TransactionContract.Presenter {
         transactionRepository.updateTransaksi(id, title, amount, type, new TransactionContract.EditTransactionListener() {
             @Override
             public void success(Transaction transaction) {
-                editView.showError("Data Transaksi telah diubah");
+                editView.showData(transaction);
             }
 
             @Override

@@ -15,12 +15,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.ahmadrosid.dompetku.R;
+import com.ahmadrosid.dompetku.main.MainContract;
+import com.ahmadrosid.dompetku.models.Transaction;
 import com.ahmadrosid.dompetku.utils.Calculator;
 import com.ahmadrosid.dompetku.utils.CalculatorListener;
 import com.ahmadrosid.dompetku.utils.TitlePicker;
 import com.ahmadrosid.dompetku.utils.TitlePickerListener;
-import com.ahmadrosid.dompetku.main.MainContract;
-import com.ahmadrosid.dompetku.models.Transaction;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ import butterknife.OnClick;
  * @update by tyangjawi03
  */
 
-public class NewTransaction extends Dialog implements View.OnClickListener, TransactionContract.EditView {
+public class EditTransaction extends Dialog implements View.OnClickListener, TransactionContract.EditView {
 
     @BindView(R.id.img_close)
     ImageView imgClose;
@@ -57,17 +57,17 @@ public class NewTransaction extends Dialog implements View.OnClickListener, Tran
     @BindView(R.id.title_picker)
     TitlePicker titlePicker;
 
-    private Transaction.TransactionType type;
+    private Transaction transaction;
 
     private MainContract.PopUpListener popUpListener;
 
     private TransactionContract.Presenter presenter;
 
-    public NewTransaction(Context context, Transaction.TransactionType type, MainContract.PopUpListener listener) {
+    public EditTransaction(Context context, Transaction transaction, MainContract.PopUpListener listener) {
         super(context);
         popUpListener = listener;
         presenter = new TransactionPresenter(this);
-        this.type = type;
+        this.transaction = transaction;
     }
 
     @Override
@@ -77,18 +77,23 @@ public class NewTransaction extends Dialog implements View.OnClickListener, Tran
         setContentView(R.layout.new_transaction_bottomset);
         ButterKnife.bind(this);
 
-        title.setText(type.name());
-
-        if (type.ordinal() == Transaction.TransactionType.PEMASUKAN.ordinal()) {
+        if (transaction.type.ordinal() == Transaction.TransactionType.PEMASUKAN.ordinal()) {
+            title.setText("Pemasukan");
             titleBar.setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimary));
         } else {
+            title.setText("Pengeluaran");
             titleBar.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
         }
+
+        itemName.setText(transaction.title);
+        itemAmount.setText(transaction.amount+"");
 
         calculator.setListener(new CalculatorListener() {
             @Override
             public void result(int amount) {
-                itemAmount.setText(amount + "");
+                if (amount > 0) {
+                    itemAmount.setText(amount + "");
+                }
                 calculator.setVisibility(View.GONE);
                 itemName.requestFocus();
                 titlePicker.setVisibility(View.VISIBLE);
@@ -102,7 +107,7 @@ public class NewTransaction extends Dialog implements View.OnClickListener, Tran
         itemName.addTextChangedListener(textWatcher);
 
         titlePicker.setVisibility(View.INVISIBLE);
-        
+
         final InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         itemAmount.setOnTouchListener(new View.OnTouchListener() {
@@ -183,10 +188,11 @@ public class NewTransaction extends Dialog implements View.OnClickListener, Tran
             popUpListener.failed("Please input amount.");
         } else {
 
-            presenter.createTransaction(
+            presenter.updateTransaction(
+                    transaction.getId(),
                     itemName.getText().toString(),
                     Integer.parseInt(itemAmount.getText().toString()),
-                    type
+                    transaction.type
             );
 
         }

@@ -24,6 +24,7 @@ import com.ahmadrosid.dompetku.detail.DetailTransaction;
 import com.ahmadrosid.dompetku.helper.CurrencyHelper;
 import com.ahmadrosid.dompetku.models.Transaction;
 import com.ahmadrosid.dompetku.report.ReportActivity;
+import com.ahmadrosid.dompetku.transaction.EditTransaction;
 import com.ahmadrosid.dompetku.transaction.EditTransactionActivity;
 import com.ahmadrosid.dompetku.transaction.NewTransaction;
 
@@ -131,7 +132,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                             showDetail(transactions);
                             break;
                         case 1:
-                            EditTransactionActivity.start(MainActivity.this, transactions.getId());
+//                            EditTransactionActivity.start(MainActivity.this, transactions.getId());
+                            edit(transactions);
                             break;
                         case 2:
                             delete(transactions);
@@ -148,7 +150,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         DetailTransaction detailTransaction = new DetailTransaction(MainActivity.this, transaction, new DetailActionListener() {
             @Override
             public void onEditClick() {
-                EditTransactionActivity.start(MainActivity.this, transaction.getId());
+//                EditTransactionActivity.start(MainActivity.this, transaction.getId());
+                edit(transaction);
             }
 
             @Override
@@ -181,20 +184,21 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 .show();
     }
 
+    MainContract.PopUpListener popUpListener = new MainContract.PopUpListener() {
+
+        @Override
+        public void success() {
+            presenter.loadData();
+        }
+
+        @Override
+        public void failed(String message) {
+            showError(message);
+        }
+    };
+
     @OnClick({R.id.fab_pemasukan, R.id.fab_pengeluaran})
     public void onViewClicked(View view) {
-        MainContract.PopUpListener popUpListener = new MainContract.PopUpListener() {
-
-            @Override
-            public void success() {
-                presenter.loadData();
-            }
-
-            @Override
-            public void failed(String message) {
-                showError(message);
-            }
-        };
 
         Transaction.TransactionType type;
 
@@ -211,6 +215,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         NewTransaction modalBottomSheet = new NewTransaction(this, type, popUpListener);
         modalBottomSheet.show();
 
+    }
+
+    public void edit(Transaction transaction) {
+        EditTransaction editTransaction = new EditTransaction(this, transaction, popUpListener);
+        editTransaction.show();
     }
 
     @Override

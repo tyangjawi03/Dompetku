@@ -38,6 +38,15 @@ public class TransactionRepository {
         return new Select().from(Transaction.class).groupBy("Title").orderBy("id desc").execute();
     }
 
+    public List<Transaction> getTransaksiGroupBy(CharSequence like) {
+        return new Select()
+                .from(Transaction.class)
+                .where("Title LIKE '%" + like + "%'")
+                .groupBy("Title")
+                .orderBy("id desc")
+                .execute();
+    }
+
     public List<Transaction> getTransaksiList(long start, long end) {
         From query = new Select().from(Transaction.class)
                 .where("Date >= " + start + " AND Date <= " + end)
