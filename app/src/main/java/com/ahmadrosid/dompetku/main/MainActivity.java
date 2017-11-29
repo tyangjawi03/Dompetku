@@ -1,6 +1,8 @@
 package com.ahmadrosid.dompetku.main;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
@@ -9,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -67,6 +70,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private MainContract.Presenter presenter;
     private FirebaseAdapter firebaseAdapter;
 
+    public static void start(Context context) {
+        Intent starter = new Intent(context, MainActivity.class);
+        context.startActivity(starter);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -84,15 +92,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
-                .child("tyangjawi03@gmail.com")
-                .limitToLast(50);
+                .child("transaction")
+                .limitToFirst(50);
 
-        FirebaseRecyclerOptions<Transaction> options =
-                new FirebaseRecyclerOptions.Builder<Transaction>()
+        FirebaseRecyclerOptions<Transaction> options = new FirebaseRecyclerOptions.Builder<Transaction>()
                         .setQuery(query, Transaction.class)
                         .build();
 
         firebaseAdapter = new FirebaseAdapter(options);
+
+        listWallet.setLayoutManager(new LinearLayoutManager(this));
         listWallet.setAdapter(firebaseAdapter);
 
 
@@ -113,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.loadData();
+//        presenter.loadData();
     }
 
     @Override
