@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,7 +29,10 @@ import com.ahmadrosid.dompetku.transaction.EditTransaction;
 import com.ahmadrosid.dompetku.transaction.EditTransactionActivity;
 import com.ahmadrosid.dompetku.transaction.NewTransaction;
 import com.crashlytics.android.Crashlytics;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.crash.FirebaseCrash;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @BindView(R.id.expend)
     TextView expendTextView;
     @BindView(R.id.list_wallet)
-    ListView listWallet;
+    RecyclerView listWallet;
     @BindView(R.id.fab_pemasukan)
     FloatingActionButton fabPemasukan;
     @BindView(R.id.fab_pengeluaran)
@@ -61,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     RelativeLayout contentMain;
 
     private MainContract.Presenter presenter;
+    private FirebaseAdapter firebaseAdapter;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -75,7 +80,34 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        presenter = new MainPresenter(this);
+//        presenter = new MainPresenter(this);
+
+        Query query = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("tyangjawi03@gmail.com")
+                .limitToLast(50);
+
+        FirebaseRecyclerOptions<Transaction> options =
+                new FirebaseRecyclerOptions.Builder<Transaction>()
+                        .setQuery(query, Transaction.class)
+                        .build();
+
+        firebaseAdapter = new FirebaseAdapter(options);
+        listWallet.setAdapter(firebaseAdapter);
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseAdapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        firebaseAdapter.stopListening();
     }
 
     @Override
@@ -169,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void showListTransaksi(List<Transaction> transactions) {
         MainAdapter adapter = new MainAdapter(this, transactions, listViewListener);
 
-        listWallet.setAdapter(adapter);
+//        listWallet.setAdapter(adapter);
     }
 
     private void delete(final Transaction transaction) {
