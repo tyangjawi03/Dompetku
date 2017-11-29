@@ -27,6 +27,8 @@ import com.ahmadrosid.dompetku.report.ReportActivity;
 import com.ahmadrosid.dompetku.transaction.EditTransaction;
 import com.ahmadrosid.dompetku.transaction.EditTransactionActivity;
 import com.ahmadrosid.dompetku.transaction.NewTransaction;
+import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crash.FirebaseCrash;
 
 import java.io.File;
 import java.io.FileNotFoundException;
