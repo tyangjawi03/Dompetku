@@ -2,6 +2,8 @@ package com.ahmadrosid.dompetku.di;
 
 import com.ahmadrosid.dompetku.DompetkuApp;
 import com.ahmadrosid.dompetku.models.TransactionRepository;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import javax.inject.Singleton;
 
@@ -26,4 +28,11 @@ public class AppModule {
     TransactionRepository provideTransactionRepository() {
         return new TransactionRepository();
     }
+
+    @Provides
+    @Singleton
+    DatabaseReference provideDatabaseReference() {
+        return FirebaseDatabase.getInstance().getReference("transaction");
+    }
+
 }
