@@ -1,12 +1,13 @@
 package com.ahmadrosid.dompetku.splash;
 
-import android.content.SharedPreferences;
-
 import com.ahmadrosid.dompetku.DompetkuApp;
+import com.ahmadrosid.dompetku.models.DompetAccount;
+import com.ahmadrosid.dompetku.models.SyncRealtime;
 import com.ahmadrosid.dompetku.models.Transaction;
 import com.ahmadrosid.dompetku.models.TransactionRepository;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -24,12 +25,10 @@ public class SplashPresenter implements SplashContract.Presenter {
     TransactionRepository transactionRepository;
 
     @Inject
-    DatabaseReference databaseReference;
+    SyncRealtime syncRealtime;
 
     @Inject
-    SharedPreferences sharedPreferences;
-
-    private String SYNCTOREALTIME = "SYNCTOREALTIME";
+    DompetAccount dompetAccount;
 
     public SplashPresenter(SplashContract.View view) {
         this.view = view;
@@ -38,10 +37,10 @@ public class SplashPresenter implements SplashContract.Presenter {
     }
 
     @Override
-    public void loadData() {
-        sharedPreferences.edit().putBoolean(SYNCTOREALTIME, false).commit();
+    public void loadData(String id) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(id);
 
-        if (!sharedPreferences.getBoolean(SYNCTOREALTIME, false)) {
+        if (!syncRealtime.isSynced()) {
             final List<Transaction> transactions = transactionRepository.getTransaksiList();
 
             if (transactions.size() > 0) {
@@ -49,16 +48,16 @@ public class SplashPresenter implements SplashContract.Presenter {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                         if (databaseError == null) {
-                            sharedPreferences.edit().putBoolean(SYNCTOREALTIME, true).commit();
+                            syncRealtime.setSync(true);
                         } else {
-                            sharedPreferences.edit().putBoolean(SYNCTOREALTIME, false).commit();
+                            syncRealtime.setSync(false);
                         }
                     }
                 });
             }
         }
 
-
+        dompetAccount.setAccount(id);
         view.showMain();
     }
 

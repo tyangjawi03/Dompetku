@@ -3,9 +3,7 @@ package com.ahmadrosid.dompetku.main;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -13,15 +11,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ahmadrosid.dompetku.DompetkuApp;
 import com.ahmadrosid.dompetku.R;
 import com.ahmadrosid.dompetku.detail.DetailActionListener;
 import com.ahmadrosid.dompetku.detail.DetailTransaction;
@@ -29,19 +28,21 @@ import com.ahmadrosid.dompetku.helper.CurrencyHelper;
 import com.ahmadrosid.dompetku.models.Transaction;
 import com.ahmadrosid.dompetku.report.ReportActivity;
 import com.ahmadrosid.dompetku.transaction.EditTransaction;
-import com.ahmadrosid.dompetku.transaction.EditTransactionActivity;
 import com.ahmadrosid.dompetku.transaction.NewTransaction;
-import com.crashlytics.android.Crashlytics;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.crash.FirebaseCrash;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,10 +71,18 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private MainContract.Presenter presenter;
     private FirebaseAdapter firebaseAdapter;
 
+    @Inject
+    DatabaseReference databaseReference;
+
     public static void start(Context context) {
         Intent starter = new Intent(context, MainActivity.class);
         context.startActivity(starter);
     }
+
+    private GoogleSignInClient mGoogleSignInClient;
+    private int RC_SIGN_IN = 7001;
+
+    private String TAG = MainActivity.class.getSimpleName();
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -88,12 +97,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        DompetkuApp.getIntance().getAppComponent().inject(this);
+
 //        presenter = new MainPresenter(this);
 
-        Query query = FirebaseDatabase.getInstance()
-                .getReference()
-                .child("transaction")
-                .limitToFirst(50);
+        Query query = databaseReference.limitToFirst(50);
 
         FirebaseRecyclerOptions<Transaction> options = new FirebaseRecyclerOptions.Builder<Transaction>()
                         .setQuery(query, Transaction.class)
@@ -103,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         listWallet.setLayoutManager(new LinearLayoutManager(this));
         listWallet.setAdapter(firebaseAdapter);
-
 
     }
 
@@ -117,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     protected void onStop() {
         super.onStop();
         firebaseAdapter.stopListening();
+
     }
 
     @Override

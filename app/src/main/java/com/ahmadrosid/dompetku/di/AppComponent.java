@@ -1,5 +1,6 @@
 package com.ahmadrosid.dompetku.di;
 
+import com.ahmadrosid.dompetku.main.MainActivity;
 import com.ahmadrosid.dompetku.main.MainPresenter;
 import com.ahmadrosid.dompetku.report.ReportPresenter;
 import com.ahmadrosid.dompetku.splash.SplashActivity;
@@ -23,5 +24,5 @@ public interface AppComponent {
     ReportPresenter inject(ReportPresenter reportPresenter);
     void inject(SplashActivity splashActivity);
     void inject(SplashPresenter splashPresenter);
-
+    void inject(MainActivity mainActivity);
 }

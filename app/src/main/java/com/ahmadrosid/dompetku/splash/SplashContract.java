@@ -11,7 +11,7 @@ public interface SplashContract {
     }
 
     interface Presenter {
-        void loadData();
+        void loadData(String id);
     }
 
 }
