@@ -1,5 +1,8 @@
 package com.ahmadrosid.dompetku.di;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.ahmadrosid.dompetku.DompetkuApp;
 import com.ahmadrosid.dompetku.models.TransactionRepository;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +28,12 @@ public class AppModule {
 
     @Provides
     @Singleton
+    Context provideContext() {
+        return dompetkuApp;
+    }
+
+    @Provides
+    @Singleton
     TransactionRepository provideTransactionRepository() {
         return new TransactionRepository();
     }
@@ -33,6 +42,12 @@ public class AppModule {
     @Singleton
     DatabaseReference provideDatabaseReference() {
         return FirebaseDatabase.getInstance().getReference("transaction");
+    }
+
+    @Provides
+    @Singleton
+    SharedPreferences provideSharedPreferences(Context context) {
+        return context.getSharedPreferences("DompetKuApp", Context.MODE_PRIVATE);
     }
 
 }

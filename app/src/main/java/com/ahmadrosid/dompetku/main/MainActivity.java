@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         @Override
         public void success() {
-            presenter.loadData();
+//            presenter.loadData();
         }
 
         @Override

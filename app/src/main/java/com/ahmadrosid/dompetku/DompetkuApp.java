@@ -24,6 +24,8 @@ public class DompetkuApp extends Application {
         super.onCreate();
 
         ActiveAndroid.initialize(this);
+
+        intance = this;
     }
 
     public static DompetkuApp getIntance() {
