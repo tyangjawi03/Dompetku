@@ -82,10 +82,7 @@ public class TransactionPresenter implements TransactionContract.Presenter {
     public void createTransaction(String title, int amount, Transaction.TransactionType type) {
         final Transaction transaction = new Transaction(title, amount, System.currentTimeMillis(), type);
 
-        Map<String, Transaction> transactionMap = new HashMap<>();
-        transactionMap.put(System.currentTimeMillis()+"", transaction);
-
-        databaseReference.setValue(transactionMap, new DatabaseReference.CompletionListener() {
+        databaseReference.child(System.currentTimeMillis()+"").setValue(transaction, new DatabaseReference.CompletionListener() {
 
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
