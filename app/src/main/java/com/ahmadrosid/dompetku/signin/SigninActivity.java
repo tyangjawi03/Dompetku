@@ -21,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SigninActivity extends AppCompatActivity {
+public class SigninActivity extends AppCompatActivity implements LoadDataContract.View {
 
     private String TAG = SigninActivity.class.getSimpleName();
 
@@ -31,6 +31,8 @@ public class SigninActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
 
     private int RC_SIGN_IN = 7001;
+
+    private LoadDataContract.Presenter presenter;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, SigninActivity.class);
@@ -48,6 +50,8 @@ public class SigninActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        presenter = new LoadDataPresenter(this);
 
     }
 
@@ -70,8 +74,8 @@ public class SigninActivity extends AppCompatActivity {
             Toast.makeText(this, account.getEmail(), Toast.LENGTH_SHORT).show();
             //TODO : already signin
 
-            MainActivity.start(this);
-            finish();
+            presenter.loadData(account.getId());
+
         } else {
             Toast.makeText(this, "Sign In Failed", Toast.LENGTH_SHORT).show();
         }
@@ -109,4 +113,9 @@ public class SigninActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void nextProcess() {
+        MainActivity.start(this);
+        finish();
+    }
 }

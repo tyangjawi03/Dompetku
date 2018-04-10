@@ -1,13 +1,13 @@
-package com.ahmadrosid.dompetku.splash;
+package com.ahmadrosid.dompetku.signin;
 
 /**
  * Created by yogja on 12/11/17.
  */
 
-public interface SplashContract {
+public interface LoadDataContract {
 
     interface View {
-        void showMain();
+        void nextProcess();
     }
 
     interface Presenter {

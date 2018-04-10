@@ -4,7 +4,7 @@ import com.ahmadrosid.dompetku.main.MainActivity;
 import com.ahmadrosid.dompetku.main.MainPresenter;
 import com.ahmadrosid.dompetku.report.ReportPresenter;
 import com.ahmadrosid.dompetku.splash.SplashActivity;
-import com.ahmadrosid.dompetku.splash.SplashPresenter;
+import com.ahmadrosid.dompetku.signin.LoadDataPresenter;
 import com.ahmadrosid.dompetku.transaction.TransactionPresenter;
 
 import javax.inject.Singleton;
@@ -23,6 +23,6 @@ public interface AppComponent {
     TransactionPresenter inject(TransactionPresenter transactionPresenter);
     ReportPresenter inject(ReportPresenter reportPresenter);
     void inject(SplashActivity splashActivity);
-    void inject(SplashPresenter splashPresenter);
+    void inject(LoadDataPresenter loadDataPresenter);
     void inject(MainActivity mainActivity);
 }

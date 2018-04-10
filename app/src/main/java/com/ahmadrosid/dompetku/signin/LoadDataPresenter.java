@@ -1,4 +1,4 @@
-package com.ahmadrosid.dompetku.splash;
+package com.ahmadrosid.dompetku.signin;
 
 import com.ahmadrosid.dompetku.DompetkuApp;
 import com.ahmadrosid.dompetku.models.DompetAccount;
@@ -17,9 +17,9 @@ import javax.inject.Inject;
  * Created by yogja on 12/11/17.
  */
 
-public class SplashPresenter implements SplashContract.Presenter {
+public class LoadDataPresenter implements LoadDataContract.Presenter {
 
-    private SplashContract.View view;
+    private LoadDataContract.View view;
 
     @Inject
     TransactionRepository transactionRepository;
@@ -30,7 +30,7 @@ public class SplashPresenter implements SplashContract.Presenter {
     @Inject
     DompetAccount dompetAccount;
 
-    public SplashPresenter(SplashContract.View view) {
+    public LoadDataPresenter(LoadDataContract.View view) {
         this.view = view;
 
         DompetkuApp.getIntance().getAppComponent().inject(this);
@@ -58,7 +58,7 @@ public class SplashPresenter implements SplashContract.Presenter {
         }
 
         dompetAccount.setAccount(id);
-        view.showMain();
+        view.nextProcess();
     }
 
 }
