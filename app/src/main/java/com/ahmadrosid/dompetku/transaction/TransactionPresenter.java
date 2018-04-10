@@ -3,10 +3,14 @@ package com.ahmadrosid.dompetku.transaction;
 import com.ahmadrosid.dompetku.DompetkuApp;
 import com.ahmadrosid.dompetku.models.Transaction;
 import com.ahmadrosid.dompetku.models.TransactionRepository;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -76,17 +80,34 @@ public class TransactionPresenter implements TransactionContract.Presenter {
 
     @Override
     public void createTransaction(String title, int amount, Transaction.TransactionType type) {
-        transactionRepository.addTransaksi(title, amount, type, new TransactionContract.AddTransactionListener() {
-            @Override
-            public void success(Transaction transaction) {
-                editView.showData(transaction);
-            }
+        final Transaction transaction = new Transaction(title, amount, System.currentTimeMillis(), type);
+
+        Map<String, Transaction> transactionMap = new HashMap<>();
+        transactionMap.put(System.currentTimeMillis()+"", transaction);
+
+        databaseReference.setValue(transactionMap, new DatabaseReference.CompletionListener() {
 
             @Override
-            public void failed(String message) {
-                editView.showError(message);
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    editView.showError(databaseError.getMessage());
+                } else {
+                    editView.showData(transaction);
+                }
             }
+
         });
+//        transactionRepository.addTransaksi(title, amount, type, new TransactionContract.AddTransactionListener() {
+//            @Override
+//            public void success(Transaction transaction) {
+//                editView.showData(transaction);
+//            }
+//
+//            @Override
+//            public void failed(String message) {
+//                editView.showError(message);
+//            }
+//        });
     }
 
     @Override
