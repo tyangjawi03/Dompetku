@@ -11,7 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,14 +29,7 @@ import com.ahmadrosid.dompetku.report.ReportActivity;
 import com.ahmadrosid.dompetku.transaction.EditTransaction;
 import com.ahmadrosid.dompetku.transaction.NewTransaction;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.List;
@@ -78,9 +70,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         Intent starter = new Intent(context, MainActivity.class);
         context.startActivity(starter);
     }
-
-    private GoogleSignInClient mGoogleSignInClient;
-    private int RC_SIGN_IN = 7001;
 
     private String TAG = MainActivity.class.getSimpleName();
 

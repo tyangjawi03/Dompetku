@@ -3,6 +3,7 @@ package com.ahmadrosid.dompetku.transaction;
 import com.ahmadrosid.dompetku.DompetkuApp;
 import com.ahmadrosid.dompetku.models.Transaction;
 import com.ahmadrosid.dompetku.models.TransactionRepository;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,9 @@ public class TransactionPresenter implements TransactionContract.Presenter {
 
     @Inject
     TransactionRepository transactionRepository;
+
+    @Inject
+    DatabaseReference databaseReference;
 
     public TransactionPresenter(TransactionContract.EditView editView) {
         DompetkuApp.getIntance().getAppComponent().inject(this);
