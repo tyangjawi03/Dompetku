@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".splash.SplashActivity"
-            android:theme="@style/SplashTheme" >
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,6 +39,7 @@
             android:value="com.ahmadrosid.dompetku.models.Transaction" />
 
         <activity android:name=".report.ReportActivity" />
+        <activity android:name=".signin.LoginActivity"></activity>
     </application>
 
 </manifest>
