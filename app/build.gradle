@@ -41,6 +41,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-crash:11.6.2'
     implementation 'com.google.firebase:firebase-database:11.6.2'
     implementation 'com.google.firebase:firebase-auth:11.6.2'
+    implementation 'com.google.android.gms:play-services-auth:11.6.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -1,7 +1,10 @@
 package com.ahmadrosid.dompetku.di;
 
+import android.content.Context;
+
 import com.ahmadrosid.dompetku.DompetkuApp;
 import com.ahmadrosid.dompetku.models.TransactionRepository;
+import com.ahmadrosid.dompetku.models.preferences.DompetAccount;
 
 import javax.inject.Singleton;
 
@@ -23,7 +26,20 @@ public class AppModule {
 
     @Provides
     @Singleton
+    Context provideContext() {
+        return dompetkuApp;
+    }
+
+    @Provides
+    @Singleton
     TransactionRepository provideTransactionRepository() {
         return new TransactionRepository();
     }
+
+    @Provides
+    @Singleton
+    DompetAccount provideDompetAccount(Context context) {
+        return new DompetAccount(context);
+    }
+
 }

@@ -2,6 +2,7 @@ package com.ahmadrosid.dompetku.di;
 
 import com.ahmadrosid.dompetku.main.MainPresenter;
 import com.ahmadrosid.dompetku.report.ReportPresenter;
+import com.ahmadrosid.dompetku.splash.SplashPresenter;
 import com.ahmadrosid.dompetku.transaction.TransactionPresenter;
 
 import javax.inject.Singleton;
@@ -20,4 +21,5 @@ public interface AppComponent {
     TransactionPresenter inject(TransactionPresenter transactionPresenter);
     ReportPresenter inject(ReportPresenter reportPresenter);
 
+    void inject(SplashPresenter splashPresenter);
 }
