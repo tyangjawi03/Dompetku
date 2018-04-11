@@ -1,4 +1,4 @@
-package com.ahmadrosid.dompetku.models;
+package com.ahmadrosid.dompetku.utils.models;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;

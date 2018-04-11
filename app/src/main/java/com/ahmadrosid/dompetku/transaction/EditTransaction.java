@@ -16,7 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.ahmadrosid.dompetku.R;
 import com.ahmadrosid.dompetku.main.MainContract;
-import com.ahmadrosid.dompetku.models.Transaction;
+import com.ahmadrosid.dompetku.utils.models.Transaction;
 import com.ahmadrosid.dompetku.utils.Calculator;
 import com.ahmadrosid.dompetku.utils.CalculatorListener;
 import com.ahmadrosid.dompetku.utils.TitlePicker;

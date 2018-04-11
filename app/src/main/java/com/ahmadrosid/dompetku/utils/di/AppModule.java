@@ -1,11 +1,11 @@
-package com.ahmadrosid.dompetku.di;
+package com.ahmadrosid.dompetku.utils.di;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.ahmadrosid.dompetku.DompetkuApp;
-import com.ahmadrosid.dompetku.models.TransactionRepository;
-import com.ahmadrosid.dompetku.models.preferences.DompetAccount;
+import com.ahmadrosid.dompetku.utils.models.TransactionRepository;
+import com.ahmadrosid.dompetku.utils.models.preferences.DompetAccount;
 
 import javax.inject.Singleton;
 

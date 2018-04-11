@@ -3,9 +3,9 @@ package com.ahmadrosid.dompetku;
 import android.app.Application;
 
 import com.activeandroid.ActiveAndroid;
-import com.ahmadrosid.dompetku.di.AppComponent;
-import com.ahmadrosid.dompetku.di.AppModule;
-import com.ahmadrosid.dompetku.di.DaggerAppComponent;
+import com.ahmadrosid.dompetku.utils.di.AppComponent;
+import com.ahmadrosid.dompetku.utils.di.AppModule;
+import com.ahmadrosid.dompetku.utils.di.DaggerAppComponent;
 
 /**
  * Created by ocittwo on 1/26/17.

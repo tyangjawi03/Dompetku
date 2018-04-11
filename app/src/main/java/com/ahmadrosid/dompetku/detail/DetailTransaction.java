@@ -2,10 +2,8 @@ package com.ahmadrosid.dompetku.detail;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.view.Window;
@@ -14,9 +12,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.ahmadrosid.dompetku.R;
-import com.ahmadrosid.dompetku.helper.CurrencyHelper;
-import com.ahmadrosid.dompetku.models.Transaction;
-import com.ahmadrosid.dompetku.transaction.EditTransactionActivity;
+import com.ahmadrosid.dompetku.utils.helper.CurrencyHelper;
+import com.ahmadrosid.dompetku.utils.models.Transaction;
 import com.ahmadrosid.dompetku.utils.LabelTextView;
 
 import java.text.DateFormat;

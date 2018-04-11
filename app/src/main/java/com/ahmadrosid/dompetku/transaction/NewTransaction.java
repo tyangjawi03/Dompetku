@@ -20,7 +20,7 @@ import com.ahmadrosid.dompetku.utils.CalculatorListener;
 import com.ahmadrosid.dompetku.utils.TitlePicker;
 import com.ahmadrosid.dompetku.utils.TitlePickerListener;
 import com.ahmadrosid.dompetku.main.MainContract;
-import com.ahmadrosid.dompetku.models.Transaction;
+import com.ahmadrosid.dompetku.utils.models.Transaction;
 
 import java.util.List;
 

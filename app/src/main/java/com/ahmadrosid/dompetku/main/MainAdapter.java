@@ -11,8 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ahmadrosid.dompetku.R;
-import com.ahmadrosid.dompetku.helper.CurrencyHelper;
-import com.ahmadrosid.dompetku.models.Transaction;
+import com.ahmadrosid.dompetku.utils.models.Transaction;
 import com.ahmadrosid.dompetku.utils.Curency;
 
 import java.text.SimpleDateFormat;

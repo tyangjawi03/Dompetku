@@ -1,8 +1,8 @@
 package com.ahmadrosid.dompetku.transaction;
 
 import com.ahmadrosid.dompetku.DompetkuApp;
-import com.ahmadrosid.dompetku.models.Transaction;
-import com.ahmadrosid.dompetku.models.TransactionRepository;
+import com.ahmadrosid.dompetku.utils.models.Transaction;
+import com.ahmadrosid.dompetku.utils.models.TransactionRepository;
 
 import java.util.ArrayList;
 import java.util.List;

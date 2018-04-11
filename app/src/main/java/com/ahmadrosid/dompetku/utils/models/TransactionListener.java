@@ -1,4 +1,4 @@
-package com.ahmadrosid.dompetku.models;
+package com.ahmadrosid.dompetku.utils.models;
 
 /**
  * Created by staf on 04-Oct-17.

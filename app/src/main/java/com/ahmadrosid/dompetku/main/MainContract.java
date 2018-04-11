@@ -1,6 +1,6 @@
 package com.ahmadrosid.dompetku.main;
 
-import com.ahmadrosid.dompetku.models.Transaction;
+import com.ahmadrosid.dompetku.utils.models.Transaction;
 
 import java.util.List;
 

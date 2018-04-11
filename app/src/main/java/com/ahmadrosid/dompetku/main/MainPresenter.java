@@ -3,15 +3,13 @@ package com.ahmadrosid.dompetku.main;
 import android.util.Log;
 
 import com.ahmadrosid.dompetku.DompetkuApp;
-import com.ahmadrosid.dompetku.models.Transaction;
-import com.ahmadrosid.dompetku.models.TransactionListener;
-import com.ahmadrosid.dompetku.models.TransactionRepository;
+import com.ahmadrosid.dompetku.utils.models.Transaction;
+import com.ahmadrosid.dompetku.utils.models.TransactionRepository;
 import com.ahmadrosid.dompetku.transaction.TransactionContract;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;

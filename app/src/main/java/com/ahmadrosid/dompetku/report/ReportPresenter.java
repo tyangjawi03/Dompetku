@@ -4,8 +4,8 @@ import android.graphics.Bitmap;
 import android.os.Environment;
 
 import com.ahmadrosid.dompetku.DompetkuApp;
-import com.ahmadrosid.dompetku.models.Transaction;
-import com.ahmadrosid.dompetku.models.TransactionRepository;
+import com.ahmadrosid.dompetku.utils.models.Transaction;
+import com.ahmadrosid.dompetku.utils.models.TransactionRepository;
 
 import java.io.File;
 import java.io.FileNotFoundException;

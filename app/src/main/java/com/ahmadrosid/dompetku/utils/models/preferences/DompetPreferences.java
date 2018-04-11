@@ -1,4 +1,4 @@
-package com.ahmadrosid.dompetku.models.preferences;
+package com.ahmadrosid.dompetku.utils.models.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;

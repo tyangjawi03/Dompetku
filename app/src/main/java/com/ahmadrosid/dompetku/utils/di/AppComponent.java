@@ -1,4 +1,4 @@
-package com.ahmadrosid.dompetku.di;
+package com.ahmadrosid.dompetku.utils.di;
 
 import com.ahmadrosid.dompetku.main.MainPresenter;
 import com.ahmadrosid.dompetku.report.ReportPresenter;

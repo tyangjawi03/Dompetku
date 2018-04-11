@@ -1,8 +1,7 @@
-package com.ahmadrosid.dompetku.models;
+package com.ahmadrosid.dompetku.utils.models;
 
 import android.util.Log;
 
-import com.activeandroid.Model;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.ahmadrosid.dompetku.transaction.TransactionContract;
