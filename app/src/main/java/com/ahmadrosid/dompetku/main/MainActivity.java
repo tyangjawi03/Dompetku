@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -98,7 +99,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         firebaseAdapter = new FirebaseAdapter(options);
 
-        listWallet.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, OrientationHelper.VERTICAL, true);
+        linearLayoutManager.setStackFromEnd(true);
+
+        listWallet.setLayoutManager(linearLayoutManager);
         listWallet.setAdapter(firebaseAdapter);
 
     }
