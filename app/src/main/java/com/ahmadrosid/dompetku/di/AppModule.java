@@ -1,6 +1,7 @@
 package com.ahmadrosid.dompetku.di;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.ahmadrosid.dompetku.DompetkuApp;
 import com.ahmadrosid.dompetku.models.TransactionRepository;
@@ -34,6 +35,12 @@ public class AppModule {
     @Singleton
     TransactionRepository provideTransactionRepository() {
         return new TransactionRepository();
+    }
+
+    @Provides
+    @Singleton
+    SharedPreferences provideSharedPreferences(Context context) {
+        return context.getSharedPreferences("DompetKuApp", Context.MODE_PRIVATE);
     }
 
     @Provides

@@ -2,6 +2,7 @@ package com.ahmadrosid.dompetku.di;
 
 import com.ahmadrosid.dompetku.main.MainPresenter;
 import com.ahmadrosid.dompetku.report.ReportPresenter;
+import com.ahmadrosid.dompetku.signin.LoginPresenter;
 import com.ahmadrosid.dompetku.splash.SplashPresenter;
 import com.ahmadrosid.dompetku.transaction.TransactionPresenter;
 
@@ -22,4 +23,6 @@ public interface AppComponent {
     ReportPresenter inject(ReportPresenter reportPresenter);
 
     void inject(SplashPresenter splashPresenter);
+
+    void inject(LoginPresenter loginPresenter);
 }

@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.ahmadrosid.dompetku.main.MainActivity;
+import com.ahmadrosid.dompetku.signin.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity implements Splash.View {
 
@@ -19,12 +20,14 @@ public class SplashActivity extends AppCompatActivity implements Splash.View {
 
     @Override
     public void goToLogin() {
-
+        LoginActivity.start(this);
+        finish();
     }
 
     @Override
     public void goToMain() {
-        
+        MainActivity.start(this);
+        finish();
     }
 
 }

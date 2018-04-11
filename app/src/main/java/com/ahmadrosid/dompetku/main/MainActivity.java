@@ -1,6 +1,8 @@
 package com.ahmadrosid.dompetku.main;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
@@ -61,6 +63,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     RelativeLayout contentMain;
 
     private MainContract.Presenter presenter;
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, MainActivity.class);
+        context.startActivity(starter);
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
