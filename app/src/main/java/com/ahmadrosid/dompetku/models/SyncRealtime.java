@@ -8,7 +8,7 @@ import android.content.Context;
 
 public class SyncRealtime extends DompetPreferences {
 
-    private String SYNCTOREALTIME = "sync_realtime";
+    private String SYNCTOREALTIME = "sync_realtime_database";
 
     public SyncRealtime(Context context) {
         super(context);

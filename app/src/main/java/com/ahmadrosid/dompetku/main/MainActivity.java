@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
 //        presenter = new MainPresenter(this);
 
-        Query query = databaseReference.limitToFirst(50);
+        Query query = databaseReference.orderByChild("date");
 
         FirebaseRecyclerOptions<Transaction> options = new FirebaseRecyclerOptions.Builder<Transaction>()
                         .setQuery(query, Transaction.class)

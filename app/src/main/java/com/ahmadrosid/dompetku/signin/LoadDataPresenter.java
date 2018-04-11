@@ -9,7 +9,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -44,7 +46,11 @@ public class LoadDataPresenter implements LoadDataContract.Presenter {
             final List<Transaction> transactions = transactionRepository.getTransaksiList();
 
             if (transactions.size() > 0) {
-                databaseReference.setValue(transactions, new DatabaseReference.CompletionListener() {
+                Map<String, Transaction> trans = new HashMap<>();
+                for (Transaction transaction : transactions) {
+                    trans.put(transaction.date+"", transaction);
+                }
+                databaseReference.setValue(trans, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                         if (databaseError == null) {
